@@ -28,7 +28,7 @@ Add this to your package's `pubspec.yaml` file:
 dependencies:
   ticketing_sdk:
     git:
-      url: https://github.com/mitrakalloo/ticketing-nodejs-sdk.git
+      url: https://github.com/mitrakalloo/ticketing-dart-sdk.git
 ```
 
 Then run:
