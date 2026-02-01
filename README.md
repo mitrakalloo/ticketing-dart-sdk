@@ -17,6 +17,17 @@
   <br />
 </div>
 
+---
+
+> **🎯 NEW: Dart/Flutter Support!**
+> 
+> This SDK is now available as a **Dart package** for Flutter mobile app development! 
+> 
+> 📱 **For Flutter/Dart developers**: See [README_DART.md](./README_DART.md) for complete Dart usage documentation.
+>
+> 📦 **For Node.js/JavaScript developers**: Continue reading below for JavaScript/TypeScript usage.
+
+---
 
 # Installation
 
