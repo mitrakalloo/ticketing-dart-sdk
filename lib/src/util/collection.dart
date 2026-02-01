@@ -30,9 +30,9 @@ class Collection<T> {
     return _onPages();
   }
 
-  Collection<T> filter(Map<String, dynamic> criteria) {
+  Collection<T> filter(Map<String, Object?> criteria) {
     return _copy(() async {
-      _onFilter(criteria);
+      _onFilter(Map<String, dynamic>.from(criteria));
       return await _executor();
     }, _cursor);
   }
