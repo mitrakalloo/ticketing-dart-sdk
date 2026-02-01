@@ -55,3 +55,6 @@ export 'src/model/host_model.dart';
 export 'src/model/region_model.dart';
 export 'src/model/section_model.dart';
 export 'src/model/venue_model.dart';
+export 'src/model/token_model.dart';
+export 'src/model/ticket_model.dart';
+export 'src/model/admission_model.dart';

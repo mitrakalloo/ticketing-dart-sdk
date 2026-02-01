@@ -1,9 +1,13 @@
+import 'dart:convert';
 import '../util/api_adapter.dart';
 import '../util/collection.dart';
+import '../errors/errors.dart';
 import 'base_model.dart';
 import 'category_model.dart';
 import 'venue_model.dart';
 import 'section_model.dart';
+import 'token_model.dart';
+import '../service/token_service.dart';
 
 class EventModel extends BaseModel {
   String published;
@@ -24,6 +28,7 @@ class EventModel extends BaseModel {
 
   String _bannerUrl;
   String _thumbnailUrl;
+  late final TokenService _tokenService;
 
   EventModel(Map<String, dynamic> data, APIAdapter adapter)
       : published = data['published'] as String? ?? '',
@@ -50,10 +55,15 @@ class EventModel extends BaseModel {
       sectionData['self'] = '${uri}${sectionData['self']}';
       sections.add(SectionModel(sectionData, adapter));
     }
+    
+    // Initialize token service
+    _tokenService = TokenService(adapter, this);
   }
 
   String get banner => _bannerUrl;
   String get thumbnail => _thumbnailUrl;
+  
+  Collection<TokenModel> get tokens => _tokenService.list();
 
   Future<bool> submit() async {
     try {
@@ -69,6 +79,29 @@ class EventModel extends BaseModel {
       await apiAdapter.post('$uri/cancellations', {});
       return true;
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<TokenModel> issueToken(List<SectionModel> sections) async {
+    try {
+      final sectionData = sections.map((section) => section.uri).toList();
+      
+      final response = await apiAdapter.post(
+        '$uri/tokens',
+        {'sections': sectionData},
+      );
+      
+      final responseData = jsonDecode(response.body) as Map<String, dynamic>;
+      return TokenModel(responseData, this, apiAdapter);
+    } catch (e) {
+      if (e is TickeTingError) {
+        if (e.code == 400) {
+          throw BadDataError(e.code, e.message);
+        } else if (e.code == 403) {
+          throw PermissionError(e.code, e.message);
+        }
+      }
       rethrow;
     }
   }

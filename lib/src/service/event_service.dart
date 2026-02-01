@@ -34,18 +34,11 @@ class PublishedEventService extends BaseService<Map<String, dynamic>, EventModel
   PublishedEventService(APIAdapter apiAdapter)
       : super(
           apiAdapter,
-          "/events/published",
+          "/published-events",
           (data, adapter) => EventModel(data, adapter),
           supportedFilters: [
             "region",
-            "host",
-            "title",
-            "category",
-            "subcategory",
-            "section",
-            "tag",
-            "start",
-            "end"
+            "title"
           ],
           supportedSortFields: [
             "alphabetical",
