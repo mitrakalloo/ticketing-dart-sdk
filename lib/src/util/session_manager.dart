@@ -33,14 +33,14 @@ class SessionManager {
 
   SessionManager(this._apiAdapter);
 
-  Future<String> start(Map<String, Object?> credentials) async {
+  Future<String> start(Map<String, dynamic> credentials) async {
     if (active) {
       throw UnsupportedOperationError(
           0, "There is already an active session");
     }
 
     try {
-      final response = await _apiAdapter.post("/sessions", Map<String, dynamic>.from(credentials));
+      final response = await _apiAdapter.post("/sessions", credentials);
       final data = jsonDecode(response.body) as Map<String, dynamic>;
 
       _session = SessionModel(data, _apiAdapter);
